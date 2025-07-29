@@ -16,8 +16,11 @@
     <div class="container">
       <div class="calculator-container">
         <div class="top-display border-radius--tl-tr">
-          <div class="top-user-input-line">21 - 1</div>
-          <div class="top-result-line">20</div>
+          <div class="top-user-input-line" id="input-display">
+            <div class="first-input" id="first-input"></div>
+            <div class="operator" id="operator"></div>
+            <div class="second-input" id="second-input"></div>
+          </div>
         </div>
         <div class="main-section border-radius--bl-br">
           <button id="mc">mc</button>
@@ -25,25 +28,25 @@
           <button id="m">m-</button>
           <button id="mr">mr</button>
           <button id="c">C</button>
-          <button id="divide" class="button--orange">/</button>
-          <button id="multiply" class="button--orange">X</button>
+          <button id="divide" value="/" class="button--orange button--has-operator">/</button>
+          <button id="multiply" value="*" class="button--orange button--has-operator">X</button>
           <button id="delete" class="button--orange">Del</button>
-          <button id="7">7</button>
-          <button id="eight">8</button>
-          <button id="nine">9</button>
-          <button id="minus" class="button--orange">-</button>
-          <button id="four">4</button>
-          <button id="five">5</button>
-          <button id="six">6</button>
-          <button id="plus" class="button--orange">+</button>
-          <button id="one">1</button>
-          <button id="two">2</button>
-          <button id="three">3</button>
-          <button id="equals" class="button--orange">=</button>
+          <button id="7" value="7" class="button--has-value">7</button>
+          <button id="eight" value="8" class="button--has-value">8</button>
+          <button id="nine" value="9" class="button--has-value">9</button>
+          <button id="minus" value="-" class="button--orange button--has-operator"">-</button>
+          <button id="four" value="4" class="button--has-value">4</button>
+          <button id="five" value="5" class="button--has-value">5</button>
+          <button id="six" value="6" class="button--has-value">6</button>
+          <button id="plus" value="+" class="button--orange button--has-operator">+</button>
+          <button id="one" value="1" class="button--has-value">1</button>
+          <button id="two" value="2" class="button--has-value">2</button>
+          <button id="three" value="3" class="button--has-value">3</button>
+          <button id="equals" value="=" class="button--orange equals">=</button>
           <button id="percent">%</button>
-          <button id="zero">0</button>
-          <button id="period">.</button>
-          <button id="equals2" class="button--orange">=</button>
+          <button id="zero" value="0" class="button--has-value">0</button>
+          <button id="period" value="." class="button--has-value">.</button>
+          <!-- <button id="equals2" class="button--orange equals">=</button> -->
         </div>
       </div>
     </div>
