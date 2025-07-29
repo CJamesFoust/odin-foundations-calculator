@@ -28,3 +28,7 @@ const operate = (a, o, b) => {
       return console.error(`Sent value not expected: ${o}`);
   }
 };
+
+var firstDigit = 0;
+var operator = "";
+var secondDigit = 0;
