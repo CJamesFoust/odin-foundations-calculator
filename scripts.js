@@ -34,6 +34,15 @@ const divide = (a, b) => {
   operator = "";
 };
 
+const percent = (a, b) => {
+  firstInput.textContent = (a / 100) * b;
+  operatorElement.textContent = "";
+  secondInput.textContent = "";
+  firstDigit = (a / 100) * b;
+  secondDigit = 0;
+  operator = "";
+};
+
 const operate = (a, o, b) => {
   switch (o) {
     case "+":
@@ -44,6 +53,8 @@ const operate = (a, o, b) => {
       return multiply(a, b);
     case "/":
       return divide(a, b);
+    case "%":
+      return percent(a, b);
     default:
       return console.error(`Sent value not expected: ${o}`);
   }
@@ -96,4 +107,50 @@ equalsButton.addEventListener("click", (e) => {
   secondDigit = parseFloat(secondInput.textContent);
   isSecondInputFlag = false;
   operate(firstDigit, operator, secondDigit);
+});
+
+var clearButton = document.querySelector(".button--clear");
+clearButton.addEventListener("click", () => {
+  firstDigit = 0;
+  operator = "";
+  secondDigit = 0;
+  isSecondInputFlag = false;
+  operatorElement.textContent = "";
+  firstInput.textContent = "";
+  secondInput.textContent = "";
+});
+
+var deleteButton = document.querySelector(".button--delete");
+deleteButton.addEventListener("click", () => {
+  if (isSecondInputFlag === true) {
+    if (secondInput.textContent.length > 1) {
+      secondInput.textContent = secondInput.textContent.substring(
+        0,
+        secondInput.textContent.length - 1
+      );
+    } else if (secondInput.textContent.length == 1) {
+      secondInput.textContent = secondInput.textContent.substring(
+        0,
+        secondInput.textContent.length - 1
+      );
+      isSecondInputFlag = false;
+    } else {
+      isSecondInputFlag = false;
+    }
+  } else if (
+    isSecondInputFlag === false &&
+    operatorElement.textContent.length > 0
+  ) {
+    operatorElement.textContent = "";
+    operator = "";
+  } else if (
+    isSecondInputFlag === false &&
+    operatorElement.textContent.length == 0 &&
+    firstInput.textContent.length > 0
+  ) {
+    firstInput.textContent = firstInput.textContent.substring(
+      0,
+      firstInput.textContent.length - 1
+    );
+  }
 });
