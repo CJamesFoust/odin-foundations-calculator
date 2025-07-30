@@ -83,7 +83,7 @@ body {
     color: #ffffff;
   }
 
-  .equals {
+  .button--equals {
     grid-area: eq;
     height: 100%;
     border-radius: 1.429rem;

@@ -1,52 +1,27 @@
 // Operation functions
 
-const add = (a, b) => {
-  resultsDisplay.textContent = a + b;
-  firstDigit = a + b;
-  isFirstOperation = false;
-  justOperated = true;
-};
-
-const subtract = (a, b) => {
-  resultsDisplay.textContent = a - b;
-  firstDigit = a - b;
-  isFirstOperation = false;
-  justOperated = true;
-};
-
-const multiply = (a, b) => {
-  resultsDisplay.textContent = a * b;
-  firstDigit = a * b;
-  isFirstOperation = false;
-  justOperated = true;
-};
-
-const divide = (a, b) => {
-  resultsDisplay.textContent = a / b;
-  firstDigit = a / b;
-  isFirstOperation = false;
-  justOperated = true;
-};
-
-const percent = (a, b) => {
-  resultsDisplay.textContent = (a / 100) * b;
-  firstDigit = (a / 100) * b;
-  isFirstOperation = false;
-  justOperated = true;
-};
-
-const operate = (a, o, b) => {
+const operate = (o) => {
   switch (o) {
     case "+":
-      return add(a, b);
+      return new Promise((resolve, reject) => {
+        resolve(firstDigit + secondDigit);
+      });
     case "-":
-      return subtract(a, b);
+      return new Promise((resolve, reject) => {
+        resolve(firstDigit - secondDigit);
+      });
     case "*":
-      return multiply(a, b);
+      return new Promise((resolve, reject) => {
+        resolve(firstDigit * secondDigit);
+      });
     case "/":
-      return divide(a, b);
+      return new Promise((resolve, reject) => {
+        resolve(firstDigit / secondDigit);
+      });
     case "%":
-      return percent(a, b);
+      return new Promise((resolve, reject) => {
+        resolve(firstDigit / 100) * secondDigit;
+      });
     default:
       return console.error(`Sent value not expected: ${o}`, operator);
   }
@@ -70,26 +45,34 @@ const digitToInput = (e) => {
     justOperated = false;
     isSecondInputFlag = true;
     resultsDisplay.textContent = e.target.value;
-  } else if(secondInputInit === true && isSecondInputFlag === true) {
+  } else if (secondInputInit === true && isSecondInputFlag === true) {
     secondInputInit = false;
-      resultsDisplay.textContent = e.target.value;
-    } else {
-        resultsDisplay.textContent = `${resultsDisplay.textContent}${e.target.value}`;
-    }
-
+    resultsDisplay.textContent = e.target.value;
+  } else {
+    resultsDisplay.textContent = `${resultsDisplay.textContent}${e.target.value}`;
+  }
 };
 
 const createOperator = (e) => {
-  if (isFirstOperation === true) {
+  if (isFirstOperation === true && isSecondInputFlag === false) {
     firstDigit = parseFloat(resultsDisplay.textContent);
+    operator = e.target.value;
   } else {
     secondDigit = parseFloat(resultsDisplay.textContent);
-    operate(firstDigit, operator, secondDigit);
+    operate(operator)
+      .then((result) => {
+        firstDigit = parseFloat(result.toFixed(5));
+        resultsDisplay.textContent = result.toFixed(5);
+        justOperated = true;
+        isFirstOperation = false;
+        operator = e.target.value;
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
   }
-
   isSecondInputFlag = true;
   secondInputInit = true;
-  operator = e.target.value;
 };
 
 // Buttons 'Event Listener' functions and assignment
@@ -116,15 +99,23 @@ buttonsWithOperator.forEach((button) => {
 });
 
 var equalsButton = document.querySelector(".button--equals");
-equalsButton.addEventListener("click", (e) => {
-  if (justOperated === true) {
-    operate(firstDigit, operator, secondDigit);
-  } else {
+equalsButton.addEventListener("click", () => {
+  if (justOperated === false) {
     secondDigit = parseFloat(resultsDisplay.textContent);
     isSecondInputFlag = false;
-    operate(firstDigit, operator, secondDigit);
   }
-  console.log("in equal function", operator, firstDigit, secondDigit);
+  operate(operator)
+    .then((result) => {
+      firstDigit = parseFloat(result.toFixed(5));
+      resultsDisplay.textContent = result.toFixed(5);
+      justOperated = true;
+      isSecondInputFlag = true;
+      secondInputInit = true;
+      isFirstOperation = false;
+    })
+    .catch((err) => {
+      console.log("error", err);
+    });
 });
 
 var clearButton = document.querySelector(".button--clear");
@@ -136,6 +127,7 @@ clearButton.addEventListener("click", () => {
   isSecondInputFlag = false;
   isAdditionalOpFlag = false;
   justOperated = false;
+  secondInputInit = false;
   resultsDisplay.textContent = "";
 });
 
